@@ -1,6 +1,7 @@
 package com.group3.finalprojectbe.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,7 +24,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", length = 20)
+    @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
 
     @Nullable
@@ -39,7 +40,8 @@ public class User implements Serializable {
     private String phoneNumber;
 
 
-    @Column(name = "email", length = 50)
+    @Column(name = "email", unique = true, length = 50)
+    @Email
     private String email;
 
     @JsonIgnore

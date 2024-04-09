@@ -1,6 +1,7 @@
 package com.group3.finalprojectbe.system.dto;
 
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 
 @Getter

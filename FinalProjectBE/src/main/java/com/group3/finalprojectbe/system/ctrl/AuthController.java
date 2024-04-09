@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.ctrl;
 
+import cn.hutool.core.map.MapUtil;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
 import com.group3.finalprojectbe.system.dto.RegisterRequest;
 import com.group3.finalprojectbe.system.service.UserService;
@@ -8,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthController {
 
     private final UserService userService;
@@ -20,13 +21,14 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
         String jwt = userService.registerUser(registerRequest);
-        return ResponseEntity.ok(jwt);
+        MapUtil.of("token", jwt);
+        return ResponseEntity.ok(MapUtil.of("token", jwt));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         String jwt = userService.loginUser(loginRequest);
-        return ResponseEntity.ok(jwt);
+        return ResponseEntity.ok(MapUtil.of("token", jwt));
     }
 
 }
