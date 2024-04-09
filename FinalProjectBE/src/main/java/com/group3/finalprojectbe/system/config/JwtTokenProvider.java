@@ -28,11 +28,10 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    private long validityInMilliseconds = 3600000 * 24;
-
     public String generateToken(UserPrincipal userPrincipal) {
 
         Date now = new Date();
+        long validityInMilliseconds = 3600000L * 24 * 30;
         Date validity = new Date(now.getTime() + validityInMilliseconds);
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userPrincipal.getId());

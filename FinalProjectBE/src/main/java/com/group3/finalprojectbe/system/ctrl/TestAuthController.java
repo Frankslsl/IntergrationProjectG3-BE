@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.ctrl;
 
+import com.group3.finalprojectbe.system.config.SecContext;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,11 @@ public class TestAuthController {
         return ResponseEntity.ok(userList);
     }
 
+
+    @GetMapping("/testUserId")
+    public ResponseEntity<?> testUserId() {
+        Long userId = SecContext.getUserId();
+        return ResponseEntity.ok(userId);
+    }
 
 }
