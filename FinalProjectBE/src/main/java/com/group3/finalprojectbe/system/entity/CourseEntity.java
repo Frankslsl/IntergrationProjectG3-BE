@@ -21,7 +21,7 @@ public class CourseEntity {
 
     @Column(nullable = false)
     @NotNull
-    private LocalDate startDate;
+    private String startDate;
 
     private String time;
 
