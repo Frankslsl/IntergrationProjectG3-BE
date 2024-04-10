@@ -1,9 +1,11 @@
 package com.group3.finalprojectbe.system.service.impl;
 
 
+import com.group3.finalprojectbe.mapper.UserMapper;
 import com.group3.finalprojectbe.system.config.JwtTokenProvider;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
 import com.group3.finalprojectbe.system.dto.RegisterRequest;
+import com.group3.finalprojectbe.system.dto.UserDto;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.entity.UserPrincipal;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final UserMapper userMapper;
 
     public String registerUser(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
@@ -56,6 +60,13 @@ public class UserServiceImpl implements UserService {
         }
         BizExceptionKit.of("Current user not exist").throwIt();
         return null;
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
+        return userMapper.apply(user);
+
     }
 
 
