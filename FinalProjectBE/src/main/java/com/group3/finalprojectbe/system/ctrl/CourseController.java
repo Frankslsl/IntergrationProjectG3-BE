@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/course")
+@CrossOrigin
 public class CourseController {
     private final CourseService service;
 
@@ -21,9 +23,10 @@ public class CourseController {
     }
 
     @GetMapping("/course")
-    public String getCourse(@RequestParam("Id") Long typeId){
+    public ResponseEntity<List<CourseDTO>> getCourse(@RequestParam("Id") Long typeId){
         List<CourseDTO> courseByTypeId = service.getCoursesByTypeId(typeId);
-        return new Gson().toJson(courseByTypeId);
+
+        return ResponseEntity.ok(courseByTypeId);
     }
 
     @PostMapping("/courseRegister")
