@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,12 +27,15 @@ public class CourseTypeEntity {
     private String name;
 
     @NotBlank
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
+    @Lob
     @NotNull
-    private String image;
+    private Blob image;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="typeLinked")
-    private List<CourseEntity> courses;
+    @Builder.Default
+    private List<CourseEntity> courses = new ArrayList<>();
 }
