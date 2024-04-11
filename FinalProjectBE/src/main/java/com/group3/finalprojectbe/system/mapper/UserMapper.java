@@ -1,4 +1,4 @@
-package com.group3.finalprojectbe.mapper;
+package com.group3.finalprojectbe.system.mapper;
 
 import com.group3.finalprojectbe.system.dto.UserDto;
 import com.group3.finalprojectbe.system.entity.Role;

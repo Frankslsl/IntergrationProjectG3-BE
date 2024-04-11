@@ -1,7 +1,7 @@
 package com.group3.finalprojectbe.system.service.impl;
 
 
-import com.group3.finalprojectbe.mapper.UserMapper;
+import com.group3.finalprojectbe.system.mapper.UserMapper;
 import com.group3.finalprojectbe.system.config.JwtTokenProvider;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
 import com.group3.finalprojectbe.system.dto.RegisterRequest;
