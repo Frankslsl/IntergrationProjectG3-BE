@@ -4,19 +4,18 @@ import com.group3.finalprojectbe.system.dto.CourseTypeDTO;
 import com.group3.finalprojectbe.system.entity.CourseTypeEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Function;
 
 @Component
-public class CourseTypeMapperHelper {
+public class CourseTypeMapperHelper implements Function<CourseTypeEntity, CourseTypeDTO> {
 
-    //private final ObjectMapper mapper;
-    public List<CourseTypeDTO> convertAuthorEntityListToAuthorList(List<CourseTypeEntity> courseTypeEntities) {
-        List<CourseTypeDTO> courseTypeDTOS = new ArrayList<>();
-        for (CourseTypeEntity temp: courseTypeEntities){
-            CourseTypeDTO courseTypeDTO = CourseTypeDTO.builder().id(temp.getId()).name(temp.getName()).description(temp.getDescription()).image(temp.getImage()).build();
-            courseTypeDTOS.add(courseTypeDTO);
-        }
-        return courseTypeDTOS;
+    @Override
+    public CourseTypeDTO apply(CourseTypeEntity courseTypeEntity) {
+        return CourseTypeDTO.builder()
+                .id(courseTypeEntity.getId())
+                .name(courseTypeEntity.getName())
+                .description(courseTypeEntity.getDescription())
+                .image(courseTypeEntity.getImage())
+                .build();
     }
 }

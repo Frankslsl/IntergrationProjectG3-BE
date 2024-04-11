@@ -14,25 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/courseType")
+@RequiredArgsConstructor
 public class CourseTypeController {
 
-    private final CourseTypeService service;
-    private final CourseTypeMapperHelper mapperHelper;
-
-    @Autowired
-    public CourseTypeController(CourseTypeService service, CourseTypeMapperHelper mapperHelper) {
-        this.service = service;
-        this.mapperHelper =mapperHelper;
-    }
+    private final CourseTypeService courseTypeService;
 
     @GetMapping("/courseTypes")
     public ResponseEntity<List<CourseTypeDTO>> getCourseType(){
-        List<CourseTypeEntity> courseTypeEntities = service.getAllTypes();
-        List<CourseTypeDTO> courseTypeDTOS = mapperHelper.convertAuthorEntityListToAuthorList(courseTypeEntities);
-        return ResponseEntity.ok(courseTypeDTOS);
+        return ResponseEntity.ok(courseTypeService.getAllTypes());
     }
 }
