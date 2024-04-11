@@ -2,11 +2,12 @@ package com.group3.finalprojectbe.system.ctrl;
 
 import com.google.gson.Gson;
 import com.group3.finalprojectbe.system.dto.CourseDTO;
+import com.group3.finalprojectbe.system.dto.CourseRegisterDTO;
 import com.group3.finalprojectbe.system.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +24,15 @@ public class CourseController {
     public String getCourse(@RequestParam("Id") Long typeId){
         List<CourseDTO> courseByTypeId = service.getCoursesByTypeId(typeId);
         return new Gson().toJson(courseByTypeId);
+    }
+
+    @PostMapping("/courseRegister")
+    public ResponseEntity<CourseRegisterDTO> selectCourse(@RequestBody CourseRegisterDTO courseRegister){
+        try {
+            CourseRegisterDTO result = service.addCourseRegister(courseRegister.getCourseId(), courseRegister.getUserId());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

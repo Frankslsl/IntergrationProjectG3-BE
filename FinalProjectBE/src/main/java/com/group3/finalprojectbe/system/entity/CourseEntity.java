@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -29,6 +30,11 @@ public class CourseEntity {
     @JoinColumn(name="typeId", nullable=false)
     private CourseTypeEntity typeLinked;
 
-//    @ManyToMany(mappedBy="selectedCourse", cascade = CascadeType.ALL)
-//    private List<User> students;
+    @ManyToMany
+    @JoinTable(
+            name = "course_user",
+            joinColumns = @JoinColumn(name="course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> students;
 }
