@@ -26,7 +26,8 @@ public class SecurityConfig {
             "/v3/api-docs.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/api/courseType/courseTypes"
+            "/api/courseType/courseTypes",
+            "/api/course/safe/**"
     };
 
     @Bean

@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.io.resource.Resource;
 import com.group3.finalprojectbe.system.entity.CourseEntity;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class InitialDatabase implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         initialCourseType();
+        initCourse();
     }
 
     private void initialCourseType() {
@@ -67,15 +70,30 @@ public class InitialDatabase implements ApplicationRunner {
         }
     }
 
+
     private void initCourse(){
         //tell if the course table is empty
         long count = courseRepository.count();
         if (count ==0){
-            //create some course data
-            CourseEntity.builder().
+            //fetch all the courseTypes
+            List<CourseTypeEntity> courseTypes = courseTypeRepository.findAll();
+            for (CourseTypeEntity type: courseTypes
+                 ) {
+                //save all the courses into database and link to type
+                    createCoursesAndLinkToType(type);
+            }
+
         }
 
 
+    }
+
+    private void createCoursesAndLinkToType(CourseTypeEntity courseType) {
+        for (int i = 7; i < 13; i=i+2) {
+            CourseEntity build = CourseEntity.builder().startDate(LocalDate.of(2024, i, 1)).duration("3 semesters").typeLinked(courseType).build();
+            courseType.registerCourseUnderThisType(build);
+            courseRepository.save(build);
+        }
     }
 
     private Blob readImage(String imageName) {

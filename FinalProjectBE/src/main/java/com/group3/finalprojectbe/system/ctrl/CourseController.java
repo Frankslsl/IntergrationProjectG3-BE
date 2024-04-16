@@ -22,9 +22,9 @@ public class CourseController {
 
 
 
-    @GetMapping("/course")
-    public ResponseEntity<List<CourseDTO>> getCourse(@RequestParam("Id") Long typeId){
-        List<CourseDTO> courseByTypeId = courseTypeService.getCoursesByTypeId(typeId);
+    @GetMapping("/safe/allCoursesByTypeId/{courseTypeId}")
+    public ResponseEntity<List<CourseDTO>> getAllCoursesByTypeId(@PathVariable("courseTypeId") Long courseTypeId){
+        List<CourseDTO> courseByTypeId = courseTypeService.getCoursesByTypeId(courseTypeId);
 
         return ResponseEntity.ok(courseByTypeId);
     }

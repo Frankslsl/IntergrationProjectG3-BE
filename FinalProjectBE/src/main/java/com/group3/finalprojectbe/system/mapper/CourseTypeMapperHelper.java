@@ -3,7 +3,6 @@ package com.group3.finalprojectbe.system.mapper;
 import cn.hutool.core.codec.Base64;
 import com.group3.finalprojectbe.system.dto.CourseTypeDTO;
 import com.group3.finalprojectbe.system.entity.CourseTypeEntity;
-import com.group3.finalprojectbe.system.excption.BizException;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,18 +19,15 @@ public class CourseTypeMapperHelper implements Function<CourseTypeEntity, Course
     public CourseTypeDTO apply(CourseTypeEntity courseTypeEntity) {
         Blob image = courseTypeEntity.getImage();
         String imageBase64Str = null;
-        if(image != null){
-            try{
-                imageBase64Str = Base64.encode(image.getBytes(1,(int)image.length()));
-            }catch (Exception e){
-                throw BizExceptionKit.of("Error when retrieving image");
-            }finally {
-                try {
-                    image.free();
-                }catch (SQLException e){
-                    log.warn("Failed to free Blob resources: " + e.getMessage());
-                }
+        if (image != null) {
+            try {
+                byte[] bytes = image.getBytes(1, (int) image.length());
+                imageBase64Str = Base64.encode(bytes);
+            } catch (Exception e) {
+                log.error("SQL error when retrieving image: {}", e.getMessage(), e);
+                throw BizExceptionKit.of("SQL error when retrieving image: " + e.getMessage());
             }
+
         }
         return CourseTypeDTO.builder()
                 .id(courseTypeEntity.getId())

@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.group3.finalprojectbe.system.dto.CourseDTO;
 import com.group3.finalprojectbe.system.dto.CourseTypeDTO;
@@ -12,6 +13,7 @@ import com.group3.finalprojectbe.system.repo.CourseTypeRepository;
 import com.group3.finalprojectbe.system.service.CourseTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,14 +40,15 @@ public class CourseTypeServiceImpl implements CourseTypeService {
     }
 
     @Override
+    @Transactional
     public List<CourseDTO> getCoursesByTypeId(Long typeId) {
         //get the courseType from database according to the courseTypeId, throw exception when courseType can not be found
-        CourseTypeEntity courseType = courseTypeRepository.findById(typeId).orElseThrow(() -> BizExceptionKit.of("Course Type can not be found by type id "+ typeId));
+        CourseTypeEntity courseType = courseTypeRepository.findById(typeId).orElseThrow(() -> BizExceptionKit.of("Course Type can not be found by type id " + typeId));
         //get the list of course from this courseType
         List<CourseEntity> courses = courseType.getCourses();
         //convert courseEntity to courseDTO, if the list is not empty
 
-        return CollectionUtil.isEmpty(courses) ? Collections.EMPTY_LIST :
+        return CollUtil.isEmpty(courses) ? Collections.emptyList() :
                 courses.stream().map(courseMapper::apply).toList();
     }
 }

@@ -44,6 +44,11 @@ public class CourseTypeEntity {
 
     // todo: use this function to link a course to this courseType
     public void registerCourseUnderThisType(CourseEntity course){
-
+        getCourses().add(course);
     }
+
+    public void unRegisterCourseUnderThisType(CourseEntity course){
+        getCourses().remove(course);
+    }
+
 }

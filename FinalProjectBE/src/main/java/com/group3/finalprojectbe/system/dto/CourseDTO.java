@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 //@AllArgsConstructor
@@ -23,6 +24,6 @@ import java.util.List;
 //
 //    private String time;
 //}
-public record CourseDTO(Long id, @NotNull String startDate, String time, CourseTypeEntity Course,
-                              List<UserDto> students) implements Serializable {
+public record CourseDTO(Long id, @NotNull LocalDate startDate, String duration, CourseTypeDTO courseType,
+                        List<UserDto> students) implements Serializable {
 }
