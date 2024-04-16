@@ -1,10 +1,12 @@
 package com.group3.finalprojectbe.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,9 +24,9 @@ public class CourseEntity {
 
     @Column(nullable = false)
     @NotNull
-    private String startDate;
-
-    private String time;
+    private LocalDate startDate;
+    @Column
+    private String duration;
 
     @ManyToOne
     @JoinColumn(name="typeId", nullable=false)
@@ -36,5 +38,6 @@ public class CourseEntity {
             joinColumns = @JoinColumn(name="course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> students;
+
+    private List<User> students = new ArrayList<User>();
 }

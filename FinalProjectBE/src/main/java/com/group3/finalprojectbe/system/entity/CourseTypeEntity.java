@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,5 +38,17 @@ public class CourseTypeEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="typeLinked")
     @Builder.Default
+    @JsonIgnore
     private List<CourseEntity> courses = new ArrayList<>();
+
+
+    // todo: use this function to link a course to this courseType
+    public void registerCourseUnderThisType(CourseEntity course){
+        getCourses().add(course);
+    }
+
+    public void unRegisterCourseUnderThisType(CourseEntity course){
+        getCourses().remove(course);
+    }
+
 }
