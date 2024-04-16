@@ -16,5 +16,5 @@ public interface UserService {
 
     UserDto getUserById(Long id);
 
-    UserDto editUser(Long userId, RegisterRequest user);
+    String editUser(Long userId, RegisterRequest user);
 }

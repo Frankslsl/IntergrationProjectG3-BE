@@ -72,14 +72,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto editUser(Long userId, RegisterRequest user) {
+    public String editUser(Long userId, RegisterRequest user) {
         User oldUser = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of("User can not be found by the userId"));
         oldUser.setUsername(user.getUsername());
         oldUser.setFirstName(user.getFirstName());
         oldUser.setLastName(user.getLastName());
         oldUser.setPhoneNumber(user.getPhoneNumber());
         oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userMapper.apply(userRepository.save(oldUser));
+        return jwtTokenProvider.generateToken(new UserPrincipal(oldUser, null));
     }
 
 
