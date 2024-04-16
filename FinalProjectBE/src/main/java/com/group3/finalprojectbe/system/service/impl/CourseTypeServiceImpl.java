@@ -28,8 +28,9 @@ public class CourseTypeServiceImpl implements CourseTypeService {
         if (empty) {
             throw BizExceptionKit.of("There is no Course Type can be found in database");
         } else {
-            return all.stream().map(courseTypeMapperHelper::apply).collect(Collectors.toList());
+            return all.stream().map(courseTypeMapperHelper::apply).toList();
         }
 
     }
+
 }
