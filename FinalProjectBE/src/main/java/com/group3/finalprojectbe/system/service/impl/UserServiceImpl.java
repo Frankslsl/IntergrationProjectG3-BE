@@ -11,6 +11,7 @@ import com.group3.finalprojectbe.system.entity.UserPrincipal;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import com.group3.finalprojectbe.system.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,18 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
         return userMapper.apply(user);
 
+    }
+
+    @Override
+    @Transactional
+    public String editUser(Long userId, RegisterRequest user) {
+        User oldUser = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of("User can not be found by the userId"));
+        oldUser.setUsername(user.getUsername());
+        oldUser.setFirstName(user.getFirstName());
+        oldUser.setLastName(user.getLastName());
+        oldUser.setPhoneNumber(user.getPhoneNumber());
+        oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return jwtTokenProvider.generateToken(new UserPrincipal(oldUser, null));
     }
 
 

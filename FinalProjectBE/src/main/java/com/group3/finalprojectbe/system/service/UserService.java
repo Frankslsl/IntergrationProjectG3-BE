@@ -15,4 +15,6 @@ public interface UserService {
     String loginUser(LoginRequest loginRequest);
 
     UserDto getUserById(Long id);
+
+    String editUser(Long userId, RegisterRequest user);
 }

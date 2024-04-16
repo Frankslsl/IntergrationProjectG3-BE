@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,14 +26,13 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Map<String, String>> registerUser(@RequestBody RegisterRequest registerRequest) {
         String jwt = userService.registerUser(registerRequest);
-        MapUtil.of("token", jwt);
         return ResponseEntity.ok(MapUtil.of("token", jwt));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest) {
         String jwt = userService.loginUser(loginRequest);
         return ResponseEntity.ok(MapUtil.of("token", jwt));
     }
