@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -36,5 +37,6 @@ public class CourseEntity {
             joinColumns = @JoinColumn(name="course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+
     private List<User> students;
 }

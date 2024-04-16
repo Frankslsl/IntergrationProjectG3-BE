@@ -2,8 +2,11 @@ package com.group3.finalprojectbe;
 
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.io.resource.Resource;
+import com.group3.finalprojectbe.system.entity.CourseEntity;
 import com.group3.finalprojectbe.system.entity.CourseTypeEntity;
+import com.group3.finalprojectbe.system.repo.CourseRepository;
 import com.group3.finalprojectbe.system.repo.CourseTypeRepository;
+import com.group3.finalprojectbe.system.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +28,15 @@ import java.util.List;
 @Component
 public class InitialDatabase implements ApplicationRunner {
     private final CourseTypeRepository courseTypeRepository;
+    private final CourseRepository courseRepository;
 
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
+        initialCourseType();
+    }
+
+    private void initialCourseType() {
         long count = courseTypeRepository.count();
         List<CourseTypeEntity> list = new ArrayList<>(3);
         CourseTypeEntity java = CourseTypeEntity.builder().name("JAVA")
@@ -57,6 +65,17 @@ public class InitialDatabase implements ApplicationRunner {
             courseTypeRepository.saveAll(list);
             log.info("courseType database has been initialized");
         }
+    }
+
+    private void initCourse(){
+        //tell if the course table is empty
+        long count = courseRepository.count();
+        if (count ==0){
+            //create some course data
+            CourseEntity.builder().
+        }
+
+
     }
 
     private Blob readImage(String imageName) {
