@@ -1,11 +1,14 @@
 package com.group3.finalprojectbe.system.ctrl;
 
 import com.group3.finalprojectbe.system.config.SecContext;
+import com.group3.finalprojectbe.system.dto.RegisterRequest;
 import com.group3.finalprojectbe.system.dto.UserDto;
 import com.group3.finalprojectbe.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.web.servlet.function.ServerResponse.ok;
 
 /**
  *
@@ -26,6 +29,11 @@ public class UserController {
     public ResponseEntity<UserDto> fetchUserByToken() {
         Long userId = SecContext.getUserId();
         UserDto userDto = userService.getUserById(userId);
+        return ResponseEntity.ok(userDto);
+    }
+    @PutMapping("/editUser/{userId}")
+    public ResponseEntity<UserDto> editUser(@PathVariable("userId") Long userId, @RequestBody RegisterRequest user){
+        UserDto userDto = userService.editUser(userId, user);
         return ResponseEntity.ok(userDto);
     }
 }
