@@ -17,7 +17,7 @@ import static org.springframework.web.servlet.function.ServerResponse.ok;
  *
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:5174", allowCredentials = "true")
+
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
