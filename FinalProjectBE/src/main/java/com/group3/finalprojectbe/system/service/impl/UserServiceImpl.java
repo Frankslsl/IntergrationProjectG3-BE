@@ -10,6 +10,7 @@ import com.group3.finalprojectbe.system.dto.UserDto;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.entity.UserPrincipal;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
+import com.group3.finalprojectbe.system.repo.CourseRepository;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import com.group3.finalprojectbe.system.service.UserService;
 import jakarta.transaction.Transactional;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final UserMapper userMapper;
+    private final CourseRepository courseRepository;
 
     public String registerUser(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
@@ -87,6 +89,29 @@ public class UserServiceImpl implements UserService {
     public List<CourseEntity> getCourseByUserId(Long id) {
         User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
         return user.getCourses();
+    }
+
+    @Override
+    @Transactional
+    public UserDto addCourseToUser(Long userId, Long courseId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of("User can not be found by the userId - userId : " +userId));
+        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> BizExceptionKit.of("Course can not be found by the courseId - courseId : " + courseId));
+        user.addCourse(courseEntity);
+        User newUser = userRepository.save(user);
+        return userMapper.apply(newUser);
+    }
+
+    @Override
+    @Transactional
+    public UserDto removeCourseFromUser(Long userId, Long courseId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of("User can not be found by the userId - userId : " + userId));
+        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> BizExceptionKit.of("Course can not be found by the courseId - courseId : " + courseId));
+        user.removeCourse(courseEntity);
+        User newUser = userRepository.save(user);
+
+
+        return userMapper.apply(newUser);
     }
 
 

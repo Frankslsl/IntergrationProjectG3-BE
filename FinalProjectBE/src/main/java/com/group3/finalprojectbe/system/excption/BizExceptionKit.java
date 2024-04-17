@@ -1,6 +1,11 @@
 package com.group3.finalprojectbe.system.excption;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
+
+@Slf4j
 
 public class BizExceptionKit {
     public static BizException of(String message, Object... args) {
@@ -16,6 +21,10 @@ public class BizExceptionKit {
     }
 
     public static BizException of(Status code, Throwable cause, String message, Object... varargs) {
+        String formattedMessage = StrUtil.format(message, varargs);
+
+        log.error("BizException has been created - Status: {}, Message: {}, Cause: '{}', Additional Info: {}\n",
+                code, formattedMessage, cause.toString(), Arrays.toString(varargs));
         return new BizException(code, StrUtil.format(message, (Object[]) varargs), cause);
     }
 }
