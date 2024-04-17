@@ -9,9 +9,10 @@ import lombok.*;
 @Setter
 @Builder
 public class CourseRegisterDTO {
-    @NotNull
-    private Long courseId;
 
     @NotNull
     private Long userId;
+
+    @NotNull
+    private Long courseId;
 }

@@ -24,6 +24,6 @@ import java.util.List;
 //
 //    private String time;
 //}
-public record CourseDTO(Long id, @NotNull LocalDate startDate, String duration, CourseTypeDTO courseType,
-                        List<UserDto> students) implements Serializable {
+public record CourseDTO(Long id, @NotNull LocalDate startDate, String duration, CourseTypeDTO courseType
+                        ) implements Serializable {
 }

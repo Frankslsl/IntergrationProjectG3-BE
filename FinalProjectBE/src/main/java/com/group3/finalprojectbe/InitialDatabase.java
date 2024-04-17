@@ -78,9 +78,9 @@ public class InitialDatabase implements ApplicationRunner {
             //fetch all the courseTypes
             List<CourseTypeEntity> courseTypes = courseTypeRepository.findAll();
             for (CourseTypeEntity type: courseTypes
-                 ) {
+            ) {
                 //save all the courses into database and link to type
-                    createCoursesAndLinkToType(type);
+                createCoursesAndLinkToType(type);
             }
 
         }

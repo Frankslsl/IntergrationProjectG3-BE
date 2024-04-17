@@ -18,6 +18,6 @@ public class CourseMapper implements Function<CourseEntity, CourseDTO> {
     private final CourseTypeMapperHelper courseTypeMapperHelper;
     @Override
     public CourseDTO apply(CourseEntity course) {
-        return new CourseDTO(course.getId(), course.getStartDate(), course.getDuration(), courseTypeMapperHelper.apply(course.getTypeLinked()), course.getStudents().stream().map(userMapper::apply).toList());
+        return new CourseDTO(course.getId(), course.getStartDate(), course.getDuration(), courseTypeMapperHelper.apply(course.getTypeLinked()));
     }
 }
