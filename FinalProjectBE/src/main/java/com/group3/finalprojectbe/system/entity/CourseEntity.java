@@ -31,13 +31,4 @@ public class CourseEntity {
     @ManyToOne
     @JoinColumn(name="typeId", nullable=false)
     private CourseTypeEntity typeLinked;
-
-    @ManyToMany
-    @JoinTable(
-            name = "course_user",
-            joinColumns = @JoinColumn(name="course_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-
-    private List<User> students = new ArrayList<User>();
 }

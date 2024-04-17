@@ -1,6 +1,7 @@
 package com.group3.finalprojectbe.system.service.impl;
 
 
+import com.group3.finalprojectbe.system.entity.CourseEntity;
 import com.group3.finalprojectbe.system.mapper.UserMapper;
 import com.group3.finalprojectbe.system.config.JwtTokenProvider;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
@@ -80,6 +81,12 @@ public class UserServiceImpl implements UserService {
         oldUser.setPhoneNumber(user.getPhoneNumber());
         oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return jwtTokenProvider.generateToken(new UserPrincipal(oldUser, null));
+    }
+
+    @Override
+    public List<CourseEntity> getCourseByUserId(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
+        return user.getCourses();
     }
 
 
