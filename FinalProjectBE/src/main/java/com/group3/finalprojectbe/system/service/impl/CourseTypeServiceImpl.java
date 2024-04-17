@@ -50,5 +50,6 @@ public class CourseTypeServiceImpl implements CourseTypeService {
 
         return CollUtil.isEmpty(courses) ? Collections.emptyList() :
                 courses.stream().map(courseMapper::apply).toList();
+
     }
 }

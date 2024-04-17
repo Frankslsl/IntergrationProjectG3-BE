@@ -9,5 +9,5 @@ public interface CourseService {
     //add a new function in courseType service instead of this one, delete
 //    List<CourseDTO> getCoursesByTypeId(Long typeId);
 
-    CourseRegisterDTO addCourseRegister(Long courseId, Long userId);
+    CourseRegisterDTO addCourseRegister(Long userId, Long courseId);
 }

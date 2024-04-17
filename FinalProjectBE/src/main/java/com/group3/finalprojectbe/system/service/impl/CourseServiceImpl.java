@@ -21,24 +21,26 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
-    private final CourseTypeService courseTypeService;
 
 
-
+//    @Override
+//    public List<CourseDTO> getCoursesByTypeId(Long typeId) {
+//        return courseRepository.findByTypeId(typeId);
+//    }
 
     @Override
-    public CourseRegisterDTO addCourseRegister(Long courseId, Long userId) {
+    public CourseRegisterDTO addCourseRegister(Long userId, Long courseId) {
 
         if (courseRepository.findById(courseId).isPresent() && userRepository.findById(userId).isPresent()){
             CourseEntity selectedCourse = courseRepository.findById(courseId).get();
             User user = userRepository.findById(userId).get();
-            List<User> students = selectedCourse.getStudents();
-            if(!students.contains(user)){
-                students.add(user);
+            List<CourseEntity> courses = user.getCourses();
+            if(!courses.contains(selectedCourse)){
+                courses.add(selectedCourse);
             }
-            selectedCourse.setStudents(students);
-            CourseEntity save = courseRepository.save(selectedCourse);
-            return courseRepository.getCourseRegister(courseId, userId);
+            user.setCourses(courses);
+            User save = userRepository.save(user);
+            return courseRepository.getCourseRegister(userId, courseId);
         } else {
             throw new RuntimeException("Course or User not exist");
         }
