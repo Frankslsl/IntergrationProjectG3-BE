@@ -23,10 +23,10 @@ public class CourseServiceImpl implements CourseService {
     private final UserRepository userRepository;
 
 
-    @Override
-    public List<CourseDTO> getCoursesByTypeId(Long typeId) {
-        return courseRepository.findByTypeId(typeId);
-    }
+//    @Override
+//    public List<CourseDTO> getCoursesByTypeId(Long typeId) {
+//        return courseRepository.findByTypeId(typeId);
+//    }
 
     @Override
     public CourseRegisterDTO addCourseRegister(Long userId, Long courseId) {
