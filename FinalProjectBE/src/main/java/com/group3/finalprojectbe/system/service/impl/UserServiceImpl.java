@@ -58,9 +58,14 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
         if (optionalUser.isPresent()) {
             String password = loginRequest.getPassword();
-            BizExceptionKit.of("password is not correct").throwIfNot(passwordEncoder.matches(password, optionalUser.get().getPassword()));
+            if (passwordEncoder.matches(password, optionalUser.get().getPassword())){
+
             UserPrincipal userPrincipal = new UserPrincipal(optionalUser.get(), null);
             return jwtTokenProvider.generateToken(userPrincipal);
+            }else {
+
+            BizExceptionKit.of("password is not correct").throwIt();
+            }
         }
         BizExceptionKit.of("Current user not exist").throwIt();
         return null;

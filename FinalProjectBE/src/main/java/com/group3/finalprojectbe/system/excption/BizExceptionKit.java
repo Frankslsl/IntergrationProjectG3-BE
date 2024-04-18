@@ -23,8 +23,9 @@ public class BizExceptionKit {
     public static BizException of(Status code, Throwable cause, String message, Object... varargs) {
         String formattedMessage = StrUtil.format(message, varargs);
 
+
         log.error("BizException has been created - Status: {}, Message: {}, Cause: '{}', Additional Info: {}\n",
-                code, formattedMessage, cause.toString(), Arrays.toString(varargs));
+                code, formattedMessage, (cause != null ? cause.toString() : ""), Arrays.toString(varargs));
         return new BizException(code, StrUtil.format(message, (Object[]) varargs), cause);
     }
 }
