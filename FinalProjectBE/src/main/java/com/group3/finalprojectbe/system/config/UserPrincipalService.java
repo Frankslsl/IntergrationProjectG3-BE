@@ -4,6 +4,7 @@ import com.group3.finalprojectbe.system.entity.Permission;
 import com.group3.finalprojectbe.system.entity.Role;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.entity.UserPrincipal;
+import com.group3.finalprojectbe.system.excption.ExceptionString;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class UserPrincipalService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException(ExceptionString.USER_NOT_FOUND + " by the username " + username));
 
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role : user.getRoles()) {

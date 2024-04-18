@@ -19,7 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin
 public class AuthController {
 
     private final UserService userService;
@@ -36,8 +35,5 @@ public class AuthController {
         String jwt = userService.loginUser(loginRequest);
         return ResponseEntity.ok(MapUtil.of("token", jwt));
     }
-
-
-
 
 }

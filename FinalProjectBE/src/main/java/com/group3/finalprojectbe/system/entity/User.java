@@ -77,4 +77,12 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<CourseEntity> courses;
+
+    public void addCourse(CourseEntity course){
+        getCourses().add(course);
+    }
+
+    public void removeCourse(CourseEntity course){
+        getCourses().remove(course);
+    }
 }
