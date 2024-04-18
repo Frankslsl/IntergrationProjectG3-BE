@@ -120,7 +120,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
         CourseEntity courseEntity = courseRepository
                 .findById(courseId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.COURSE_NOT_FOUND + " by the courseId " + courseId));
+        if(user.getCourses().contains(courseEntity)){
+
         user.removeCourse(courseEntity);
+        }else {
+            throw BizExceptionKit.of(ExceptionString.COURSE_NOT_FOUND + " in this user's course list");
+        }
         User newUser = userRepository.save(user);
 
 
