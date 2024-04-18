@@ -7,6 +7,7 @@ import com.group3.finalprojectbe.system.dto.CourseTypeDTO;
 import com.group3.finalprojectbe.system.entity.CourseEntity;
 import com.group3.finalprojectbe.system.entity.CourseTypeEntity;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
+import com.group3.finalprojectbe.system.excption.ExceptionString;
 import com.group3.finalprojectbe.system.mapper.CourseMapper;
 import com.group3.finalprojectbe.system.mapper.CourseTypeMapperHelper;
 import com.group3.finalprojectbe.system.repo.CourseTypeRepository;
@@ -32,7 +33,7 @@ public class CourseTypeServiceImpl implements CourseTypeService {
         List<CourseTypeEntity> all = courseTypeRepository.findAll();
         boolean empty = CollectionUtil.isEmpty(all);
         if (empty) {
-            throw BizExceptionKit.of("There is no Course Type can be found in database");
+            throw BizExceptionKit.of(ExceptionString.COURSE_TYPE_NOT_FOUND);
         } else {
             return all.stream().map(courseTypeMapperHelper::apply).toList();
         }

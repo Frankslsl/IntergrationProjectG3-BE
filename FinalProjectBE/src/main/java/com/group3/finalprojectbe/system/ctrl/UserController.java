@@ -17,7 +17,7 @@ import static org.springframework.web.servlet.function.ServerResponse.ok;
  *
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:5174", allowCredentials = "true")
+
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
@@ -39,4 +39,17 @@ public class UserController {
         String newToken = userService.editUser(userId, user);
         return ResponseEntity.ok(MapUtil.of("token", newToken));
     }
+
+    @PostMapping("/addCourseToUser/{userId}/{courseId}")
+    public ResponseEntity<UserDto> addCourseToUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId){
+        UserDto userDto = userService.addCourseToUser(userId, courseId);
+        return ResponseEntity.ok(userDto);
+    }
+
+    @PostMapping("/removeCourseFromUser/{userId}/{courseId}")
+    public ResponseEntity<UserDto> removeCourseFromUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId){
+        userService.removeCourseFromUser(userId, courseId);
+        return ResponseEntity.ok(null);
+    }
+
 }

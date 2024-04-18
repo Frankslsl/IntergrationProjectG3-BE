@@ -2,6 +2,7 @@ package com.group3.finalprojectbe.system.service.impl;
 
 
 import com.group3.finalprojectbe.system.entity.CourseEntity;
+import com.group3.finalprojectbe.system.excption.ExceptionString;
 import com.group3.finalprojectbe.system.mapper.UserMapper;
 import com.group3.finalprojectbe.system.config.JwtTokenProvider;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
@@ -10,6 +11,7 @@ import com.group3.finalprojectbe.system.dto.UserDto;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.entity.UserPrincipal;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
+import com.group3.finalprojectbe.system.repo.CourseRepository;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import com.group3.finalprojectbe.system.service.UserService;
 import jakarta.transaction.Transactional;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final UserMapper userMapper;
+    private final CourseRepository courseRepository;
 
     public String registerUser(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
@@ -48,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
             return jwtTokenProvider.generateToken(userPrincipal);
         }
-        throw BizExceptionKit.of("Current user has bean registered");
+        throw BizExceptionKit.of(ExceptionString.USERNAME_ALREADY_EXIST);
     }
 
     @Override
@@ -56,17 +59,23 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
         if (optionalUser.isPresent()) {
             String password = loginRequest.getPassword();
-            BizExceptionKit.of("password is not correct").throwIfNot(passwordEncoder.matches(password, optionalUser.get().getPassword()));
+            if (passwordEncoder.matches(password, optionalUser.get().getPassword())){
+
             UserPrincipal userPrincipal = new UserPrincipal(optionalUser.get(), null);
             return jwtTokenProvider.generateToken(userPrincipal);
+            }else {
+
+            BizExceptionKit.of(ExceptionString.PASSWORD_NOT_MATCH).throwIt();
+            }
         }
-        BizExceptionKit.of("Current user not exist").throwIt();
+        BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the email " + loginRequest.getEmail()).throwIt();
         return null;
     }
 
     @Override
     public UserDto getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
+        User user = userRepository.findById(id)
+                .orElseThrow(()->BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + id));
         return userMapper.apply(user);
 
     }
@@ -74,19 +83,48 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String editUser(Long userId, RegisterRequest user) {
-        User oldUser = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of("User can not be found by the userId"));
+        User oldUser = userRepository.findById(userId)
+                .orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
         oldUser.setUsername(user.getUsername());
         oldUser.setFirstName(user.getFirstName());
         oldUser.setLastName(user.getLastName());
         oldUser.setPhoneNumber(user.getPhoneNumber());
-        oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return jwtTokenProvider.generateToken(new UserPrincipal(oldUser, null));
+        oldUser.setPassword(passwordEncoder
+                .encode(user.getPassword()));
+        return jwtTokenProvider
+                .generateToken(new UserPrincipal(oldUser, null));
     }
 
     @Override
     public List<CourseEntity> getCourseByUserId(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()->BizExceptionKit.of("Can not find the user by the user ID"));
+        User user = userRepository.findById(id)
+                .orElseThrow(()->BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + id));
         return user.getCourses();
+    }
+
+    @Override
+    @Transactional
+    public UserDto addCourseToUser(Long userId, Long courseId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
+        CourseEntity courseEntity = courseRepository
+                .findById(courseId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.COURSE_NOT_FOUND + " by the courseId " + courseId));
+        user.addCourse(courseEntity);
+        User newUser = userRepository.save(user);
+        return userMapper.apply(newUser);
+    }
+
+    @Override
+    @Transactional
+    public UserDto removeCourseFromUser(Long userId, Long courseId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
+        CourseEntity courseEntity = courseRepository
+                .findById(courseId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.COURSE_NOT_FOUND + " by the courseId " + courseId));
+        user.removeCourse(courseEntity);
+        User newUser = userRepository.save(user);
+
+
+        return userMapper.apply(newUser);
     }
 
 
