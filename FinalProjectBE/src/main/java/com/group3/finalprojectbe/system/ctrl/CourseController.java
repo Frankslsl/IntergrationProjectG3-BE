@@ -42,8 +42,8 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/courseList")
-    public ResponseEntity<List<CourseRegisterDTO>> getCourse(@RequestParam("userId") Long userId){
+    @GetMapping("/courseList/{userId}")
+    public ResponseEntity<List<CourseRegisterDTO>> getCourse(@PathVariable("userId") Long userId){
         try {
             List<CourseEntity> courses = userService.getCourseByUserId(userId);
             List<CourseRegisterDTO> courseRegisterDTOList = new ArrayList<>();
