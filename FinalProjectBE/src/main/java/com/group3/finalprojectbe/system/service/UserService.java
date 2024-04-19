@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.service;
 
+import com.group3.finalprojectbe.system.dto.CourseDTO;
 import com.group3.finalprojectbe.system.dto.LoginRequest;
 import com.group3.finalprojectbe.system.dto.RegisterRequest;
 import com.group3.finalprojectbe.system.dto.UserDto;
@@ -19,7 +20,7 @@ public interface UserService {
 
     String editUser(Long userId, RegisterRequest user);
 
-    List<CourseEntity> getCourseByUserId(Long id);
+    List<CourseDTO> getCourseByUserId(Long id);
 
     UserDto addCourseToUser(Long userId, Long courseId);
 

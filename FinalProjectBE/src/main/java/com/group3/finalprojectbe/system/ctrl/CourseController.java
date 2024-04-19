@@ -43,18 +43,10 @@ public class CourseController {
     }
 
     @GetMapping("/courseList/{userId}")
-    public ResponseEntity<List<CourseRegisterDTO>> getCourse(@PathVariable("userId") Long userId){
-        try {
-            List<CourseEntity> courses = userService.getCourseByUserId(userId);
-            List<CourseRegisterDTO> courseRegisterDTOList = new ArrayList<>();
-            for (CourseEntity course : courses) {
-                CourseRegisterDTO cu = CourseRegisterDTO.builder().userId(userId).courseId(course.getId()).build();
-                courseRegisterDTOList.add(cu);
-            }
-            return ResponseEntity.ok(courseRegisterDTOList);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<CourseDTO>> getCourse(@PathVariable("userId") Long userId){
+            ;
+           return ResponseEntity.ok(userService.getCourseByUserId(userId));
+
     }
 
 }
