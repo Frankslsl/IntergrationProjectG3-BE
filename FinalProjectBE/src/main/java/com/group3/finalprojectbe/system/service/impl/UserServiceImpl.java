@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
         User oldUser = userRepository.findById(userId)
                 .orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
         oldUser.setUsername(user.getUsername());
-        oldUser.setFirstName(user.getFirstName());
-        oldUser.setLastName(user.getLastName());
+//        oldUser.setFirstName(user.getFirstName());
+//        oldUser.setLastName(user.getLastName());
         oldUser.setPhoneNumber(user.getPhoneNumber());
         oldUser.setPassword(passwordEncoder
                 .encode(user.getPassword()));
