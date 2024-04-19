@@ -1,6 +1,7 @@
 package com.group3.finalprojectbe.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.group3.finalprojectbe.system.excption.BizExceptionKit;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -79,7 +80,11 @@ public class User implements Serializable {
     private List<CourseEntity> courses;
 
     public void addCourse(CourseEntity course){
-        getCourses().add(course);
+        if(courses.contains(course)){
+            BizExceptionKit.of("User has registered this course, can not register the course repeatable");
+        }else {
+            getCourses().add(course);
+        }
     }
 
     public void removeCourse(CourseEntity course){
