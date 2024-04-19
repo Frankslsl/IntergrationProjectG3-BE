@@ -111,7 +111,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
         CourseEntity courseEntity = courseRepository
                 .findById(courseId).orElseThrow(() -> BizExceptionKit.of(ExceptionString.COURSE_NOT_FOUND + " by the courseId " + courseId));
-        user.addCourse(courseEntity);
+
+            user.addCourse(courseEntity);
+
+
         User newUser = userRepository.save(user);
         return userMapper.apply(newUser);
     }

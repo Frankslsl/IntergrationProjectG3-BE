@@ -84,7 +84,8 @@ public class User implements Serializable {
     public void addCourse(CourseEntity course){
         boolean contain = CollUtil.anyMatch(courses, c -> c.getId().equals(course.getId()));
         if(contain){
-            BizExceptionKit.of("User has registered this course, can not register the course repeatable");
+            throw BizExceptionKit.of("User has registered this course, can not register the course repeatable");
+
         }else {
             getCourses().add(course);
         }
