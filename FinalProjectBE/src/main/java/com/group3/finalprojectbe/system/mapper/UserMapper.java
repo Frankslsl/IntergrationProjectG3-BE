@@ -15,6 +15,6 @@ import java.util.stream.Collectors;
 public class UserMapper implements Function<User, UserDto> {
     @Override
     public UserDto apply(User user) {
-        return new UserDto(user.getUsername(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(), user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
+        return new UserDto(user.getId(),user.getUsername(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(), user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
     }
 }
