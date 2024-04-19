@@ -1,5 +1,7 @@
 package com.group3.finalprojectbe.system.entity;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.group3.finalprojectbe.system.excption.BizExceptionKit;
 import jakarta.validation.constraints.Email;
@@ -80,7 +82,8 @@ public class User implements Serializable {
     private List<CourseEntity> courses;
 
     public void addCourse(CourseEntity course){
-        if(courses.contains(course)){
+        boolean contain = CollUtil.anyMatch(courses, c -> c.getId().equals(course.getId()));
+        if(contain){
             BizExceptionKit.of("User has registered this course, can not register the course repeatable");
         }else {
             getCourses().add(course);
