@@ -8,7 +8,6 @@ import com.group3.finalprojectbe.system.excption.ExceptionString;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +37,6 @@ public class UserPrincipalService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(permission.getName()));
             }
         }
-        return new UserPrincipal(user,authorities);
+        return new UserPrincipal(user, authorities);
     }
 }

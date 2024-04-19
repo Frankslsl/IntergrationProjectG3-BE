@@ -20,10 +20,10 @@ import java.util.List;
 public class CourseTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name="name", unique = true)
+    @Column(name = "name", unique = true)
     @NotNull
     private String name;
 
@@ -36,18 +36,17 @@ public class CourseTypeEntity {
     @NotNull
     private Blob image;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="typeLinked")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "typeLinked")
     @Builder.Default
     @JsonIgnore
     private List<CourseEntity> courses = new ArrayList<>();
 
 
-    // todo: use this function to link a course to this courseType
-    public void registerCourseUnderThisType(CourseEntity course){
+    public void registerCourseUnderThisType(CourseEntity course) {
         getCourses().add(course);
     }
 
-    public void unRegisterCourseUnderThisType(CourseEntity course){
+    public void unRegisterCourseUnderThisType(CourseEntity course) {
         getCourses().remove(course);
     }
 

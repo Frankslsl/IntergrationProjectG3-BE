@@ -1,13 +1,10 @@
 package com.group3.finalprojectbe.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -19,7 +16,7 @@ import java.util.List;
 public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -29,6 +26,6 @@ public class CourseEntity {
     private String duration;
 
     @ManyToOne
-    @JoinColumn(name="typeId", nullable=false)
+    @JoinColumn(name = "typeId", nullable = false)
     private CourseTypeEntity typeLinked;
 }

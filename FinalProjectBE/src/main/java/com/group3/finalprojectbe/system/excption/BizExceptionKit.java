@@ -1,5 +1,6 @@
 package com.group3.finalprojectbe.system.excption;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,13 +22,13 @@ public class BizExceptionKit {
     }
 
     public static BizException of(Status code, Throwable cause, String message, Object... varargs) {
-        String formattedMessage = StrUtil.format(message, varargs);
+        String formattedMessage = CharSequenceUtil.format(message, varargs);
 
 
         log.error("BizException has been created - Status: {}, Message: {}, Cause: '{}', Additional Info: {}\n",
                 code, formattedMessage, (cause != null ? cause.toString() : ""), Arrays.toString(varargs));
 
 
-        return new BizException(code, StrUtil.format(message, (Object[]) varargs), cause);
+        return new BizException(code, CharSequenceUtil.format(message, (Object[]) varargs), cause);
     }
 }

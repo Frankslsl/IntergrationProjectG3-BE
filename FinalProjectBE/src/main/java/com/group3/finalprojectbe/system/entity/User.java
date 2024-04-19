@@ -16,6 +16,7 @@ import org.springframework.lang.Nullable;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -79,7 +80,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private List<CourseEntity> courses;
+    private List<CourseEntity> courses = new ArrayList<>();
 
     public void addCourse(CourseEntity course){
         boolean contain = CollUtil.anyMatch(courses, c -> c.getId().equals(course.getId()));

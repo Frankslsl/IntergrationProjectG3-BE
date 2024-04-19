@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static org.springframework.web.servlet.function.ServerResponse.ok;
-
 /**
  *
  */
@@ -22,32 +20,35 @@ import static org.springframework.web.servlet.function.ServerResponse.ok;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> fetchUserByUserId(@PathVariable Long userId){
+    public ResponseEntity<UserDto> fetchUserByUserId(@PathVariable Long userId) {
 
         UserDto userDto = userService.getUserById(userId);
         return ResponseEntity.ok(userDto);
     }
+
     @GetMapping("/fetchUser")
     public ResponseEntity<UserDto> fetchUserByToken() {
         Long userId = SecContext.getUserId();
         UserDto userDto = userService.getUserById(userId);
         return ResponseEntity.ok(userDto);
     }
+
     @PutMapping("/editUser/{userId}")
-    public ResponseEntity<Map<String, String>> editUser(@PathVariable("userId") Long userId, @RequestBody RegisterRequest user){
+    public ResponseEntity<Map<String, String>> editUser(@PathVariable("userId") Long userId, @RequestBody RegisterRequest user) {
         String newToken = userService.editUser(userId, user);
         return ResponseEntity.ok(MapUtil.of("token", newToken));
     }
 
     @PostMapping("/addCourseToUser/{userId}/{courseId}")
-    public ResponseEntity<UserDto> addCourseToUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId){
+    public ResponseEntity<UserDto> addCourseToUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId) {
         UserDto userDto = userService.addCourseToUser(userId, courseId);
         return ResponseEntity.ok(userDto);
     }
 
     @PostMapping("/removeCourseFromUser/{userId}/{courseId}")
-    public ResponseEntity<UserDto> removeCourseFromUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId){
+    public ResponseEntity<UserDto> removeCourseFromUser(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId) {
         userService.removeCourseFromUser(userId, courseId);
         return ResponseEntity.ok(null);
     }

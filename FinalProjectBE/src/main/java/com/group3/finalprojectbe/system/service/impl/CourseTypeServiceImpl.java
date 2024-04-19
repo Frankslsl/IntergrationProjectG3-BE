@@ -31,7 +31,7 @@ public class CourseTypeServiceImpl implements CourseTypeService {
     @Override
     public List<CourseTypeDTO> getAllTypes() {
         List<CourseTypeEntity> all = courseTypeRepository.findAll();
-        boolean empty = CollectionUtil.isEmpty(all);
+        boolean empty = CollUtil.isEmpty(all);
         if (empty) {
             throw BizExceptionKit.of(ExceptionString.COURSE_TYPE_NOT_FOUND);
         } else {

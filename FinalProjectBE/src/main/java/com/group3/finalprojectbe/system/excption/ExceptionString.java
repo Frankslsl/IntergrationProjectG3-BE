@@ -4,6 +4,9 @@ package com.group3.finalprojectbe.system.excption;
  *
  */
 public class ExceptionString {
+    private ExceptionString() {
+    }
+
     public static final String USER_NOT_FOUND = "User not found";
     public static final String USERNAME_ALREADY_EXIST = "User already exist";
     public static final String EMAIL_ALREADY_EXIST = "Email already exist";

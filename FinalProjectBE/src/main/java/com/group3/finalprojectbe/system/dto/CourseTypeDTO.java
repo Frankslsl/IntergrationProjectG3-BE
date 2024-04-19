@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import java.sql.Blob;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

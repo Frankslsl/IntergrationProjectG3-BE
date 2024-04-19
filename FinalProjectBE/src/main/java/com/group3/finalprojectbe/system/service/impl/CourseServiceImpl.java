@@ -1,18 +1,14 @@
 package com.group3.finalprojectbe.system.service.impl;
 
-import com.group3.finalprojectbe.system.dto.CourseDTO;
 import com.group3.finalprojectbe.system.dto.CourseRegisterDTO;
 import com.group3.finalprojectbe.system.entity.CourseEntity;
 import com.group3.finalprojectbe.system.entity.User;
 import com.group3.finalprojectbe.system.repo.CourseRepository;
 import com.group3.finalprojectbe.system.repo.UserRepository;
 import com.group3.finalprojectbe.system.service.CourseService;
-import com.group3.finalprojectbe.system.service.CourseTypeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,19 +19,14 @@ public class CourseServiceImpl implements CourseService {
     private final UserRepository userRepository;
 
 
-//    @Override
-//    public List<CourseDTO> getCoursesByTypeId(Long typeId) {
-//        return courseRepository.findByTypeId(typeId);
-//    }
-
     @Override
     public CourseRegisterDTO addCourseRegister(Long userId, Long courseId) {
 
-        if (courseRepository.findById(courseId).isPresent() && userRepository.findById(userId).isPresent()){
+        if (courseRepository.findById(courseId).isPresent() && userRepository.findById(userId).isPresent()) {
             CourseEntity selectedCourse = courseRepository.findById(courseId).get();
             User user = userRepository.findById(userId).get();
             List<CourseEntity> courses = user.getCourses();
-            if(!courses.contains(selectedCourse)){
+            if (!courses.contains(selectedCourse)) {
                 courses.add(selectedCourse);
             }
             user.setCourses(courses);
