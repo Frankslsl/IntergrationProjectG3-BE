@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     public String editUser(Long userId, RegisterRequest user) {
         User oldUser = userRepository.findById(userId)
                 .orElseThrow(() -> BizExceptionKit.of(ExceptionString.USER_NOT_FOUND + " by the userId " + userId));
-        oldUser.setUsername(user.getUsername());
+//        oldUser.setUsername(user.getUsername());
 
         oldUser.setPhoneNumber(user.getPhoneNumber());
         oldUser.setPassword(passwordEncoder
