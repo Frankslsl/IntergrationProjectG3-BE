@@ -10,4 +10,5 @@ public interface CourseService {
 //    List<CourseDTO> getCoursesByTypeId(Long typeId);
 
     CourseRegisterDTO addCourseRegister(Long userId, Long courseId);
+
 }

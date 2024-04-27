@@ -57,5 +57,44 @@ public class CourseController {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/addCourseToUser")
+    public ResponseEntity<String> addCourseToUser(@RequestParam("userId") Long userId, @RequestParam("courseId") Long courseId) {
+        try {
+            userService.addCourseToUser(userId, courseId);
+            return ResponseEntity.ok("Course added to user successfully.");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteCoursesByUser")
+    public ResponseEntity<String> deleteCoursesByUser(@RequestParam("userId") Long userId, @RequestParam("courseId") Long courseId) {
+        try {
+            userService.deleteCourseByUser(userId, courseId);
+            return ResponseEntity.ok("Course deleted from user successfully.");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getCourseForUser")
+    public ResponseEntity<?> getCourseForUser(@RequestParam("userId") Long userId) {
+        try {
+            List<CourseEntity> courses = userService.getCourseByUserId(userId);
+            List<CourseDTO> courseDTOList = new ArrayList<>();
+            for (CourseEntity course : courses) {
+                CourseDTO courseDTO = CourseDTO.builder()
+                        .id(course.getId())
+                        .startDate(course.getStartDate())
+                        .duration(course.getDuration())
+                        .build();
+                courseDTOList.add(courseDTO);
+            }
+            return ResponseEntity.ok(courseDTOList);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

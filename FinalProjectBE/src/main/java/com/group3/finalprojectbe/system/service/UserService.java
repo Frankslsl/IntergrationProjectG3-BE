@@ -21,4 +21,7 @@ public interface UserService {
 
     List<CourseEntity> getCourseByUserId(Long id);
 
+    void addCourseToUser(Long userId, Long courseId);
+    void deleteCourseByUser(Long userId, Long courseId);
+
 }

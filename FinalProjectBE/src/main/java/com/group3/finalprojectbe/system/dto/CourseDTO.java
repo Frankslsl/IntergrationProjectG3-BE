@@ -10,11 +10,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Getter
-//@Setter
-//@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@Getter
+@Setter
+@Builder
 //public class CourseDTO {
 //    private Long id;
 //    @NotEmpty
@@ -26,4 +26,7 @@ import java.util.List;
 //}
 public record CourseDTO(Long id, @NotNull LocalDate startDate, String duration, CourseTypeDTO courseType
                         ) implements Serializable {
+    public CourseDTO(Long id, LocalDate startDate, String duration, CourseTypeDTO apply) {
+    }
 }
+        
